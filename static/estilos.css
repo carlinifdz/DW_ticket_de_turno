@@ -1,0 +1,176 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f3f4f6;
+    color: #222;
+    padding: clamp(10px, 3vw, 35px);
+}
+
+.contenedor {
+    width: min(1200px, 100%);
+    margin: auto;
+    background: white;
+    padding: clamp(15px, 3vw, 35px);
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.encabezado {
+    align-items: center;
+    gap: clamp(10px, 2vw, 25px);
+    margin-bottom: 30px;
+}
+
+h1 {
+    margin: 0;
+    text-align: center;
+    font-family: Georgia, serif;
+    font-size: clamp(1.3rem, 3vw, 2.2rem);
+    font-weight: normal;
+}
+
+.formulario {
+    display: grid;
+    grid-template-columns:
+    repeat(auto-fit, minmax(min(230px, 100%), 1fr));
+
+    gap: 20px;
+}
+
+.campo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+.campo label {
+    font-size: clamp(0.8rem, 1.3vw, 0.95rem);
+    white-space: nowrap;
+}
+
+.campo input,
+.campo select {
+    flex: 1;
+    min-width: 0;
+    width: 100%;
+    padding: 9px 11px;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    font-size: 0.95rem;
+    background: white;
+}
+
+.campo input:focus,
+.campo select:focus {
+    outline: 2px solid #4a8bd8;
+    border-color: transparent;
+}
+
+.campo-grande {
+    grid-column: span 2;
+}
+
+.campo-completo {
+    grid-column: 1 / -1;
+}
+
+select {
+    cursor: pointer;
+}
+
+.acciones {
+    text-align: center;
+    margin-top: 30px;
+}
+
+button {
+    border: 0;
+    background: #315f98;
+    color: white;
+    padding: 11px 30px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #244a78;
+}
+
+.informacion {
+    margin-top: 35px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+    line-height: 1.7;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 500px) {
+    .campo {
+    flex-direction: column;
+    align-items: stretch;
+    }
+
+    .campo label {
+    white-space: normal;
+    }
+
+    .campo-grande {
+    grid-column: 1 / -1;
+    }
+}
+
+.mensaje-error {
+    display: block;
+    color: red;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+.campo-error {
+    border: 1px solid red;
+}
+
+
+/* Contenedor del input y su error */
+.control-campo {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+}
+
+.control-campo input,
+.control-campo select {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Mensajes de error */
+.mensaje-error {
+    display: block;
+    color: #dc2626;
+    font-size: 12px;
+    margin-top: 5px;
+    font-weight: normal;
+}
+
+/* Campos incorrectos */
+.campo input.campo-error,
+.campo select.campo-error {
+    border: 2px solid #dc2626;
+    background-color: #fff5f5;
+}
+
+/* Enfoque en un campo incorrecto */
+.campo input.campo-error:focus,
+.campo select.campo-error:focus {
+    outline: 2px solid #dc2626;
+    outline-offset: 1px;
+}

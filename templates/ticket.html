@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket de Turno</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}">
+</head>
+
+<body>
+    <main class="contenedor">
+
+        <header class="encabezado">
+            <h1>Ticket de Turno</h1>
+        </header>
+
+        <form id="formularioTurno">
+            <div class="formulario">
+
+                <div class="campo campo-grande">
+                    <label for="responsable">
+                        Nombre completo de quien realizará el trámite:
+                    </label>
+                    <input type="text" id="responsable" name="responsable">
+                </div>
+
+                <div class="campo">
+                    <label for="curp">CURP:</label>
+                    <input type="text" id="curp" name="curp" maxlength="18">
+                </div>
+
+                <div class="campo">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre">
+                </div>
+
+                <div class="campo">
+                    <label for="paterno">Paterno:</label>
+                    <input type="text" id="paterno" name="paterno">
+                </div>
+
+                <div class="campo">
+                    <label for="materno">Materno:</label>
+                    <input type="text" id="materno" name="materno">
+                </div>
+
+                <div class="campo">
+                    <label for="telefono">Teléfono:</label>
+                    <input type="tel" id="telefono" name="telefono" inputmode="numeric" maxlength="10" pattern="[0-9]{10}" required>
+                </div>
+
+                <div class="campo">
+                    <label for="celular">Celular:</label>
+                    <input type="tel" id="celular" name="celular" inputmode="numeric" maxlength="10" pattern="[0-9]{10}" required>
+                </div>
+
+                <div class="campo campo-grande">
+                    <label for="correo">Correo:</label>
+                    <input type="email" id="correo" name="correo">
+                </div>
+
+                <div class="campo campo-completo">
+                    <label for="nivel">
+                        ¿Nivel al que desea ingresar o que ya cursa el alumno?
+                    </label>
+
+                    <select id="nivel" name="nivel">
+                        <option value="">Seleccione una opción</option>
+                        {% for item in niveles %}
+                        <option value="{{ item.nombre }}">{{ item.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="campo campo-completo">
+                    <label for="municipio">
+                        Municipio donde desea estudie el alumno:
+                    </label>
+
+                    <select id="municipio" name="municipio">
+                        <option value="">Seleccione un municipio</option>
+                        {% for item in municipios %}
+                        <option value="{{ item.nombre }}">{{ item.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="campo campo-completo">
+                    <label for="asunto">
+                        Seleccione el asunto que va a tratar:
+                    </label>
+
+                    <select id="asunto" name="asunto">
+                        <option value="">Seleccione un asunto</option>
+                        {% for item in asuntos %}
+                        <option value="{{ item.nombre }}">{{ item.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="acciones">
+                <button type="submit">
+                    Generar Turno
+                </button>
+            </div>
+        </form>
+    </main>
+
+    <script src="{{ url_for('static', filename='validacion.js') }}"></script>
+</body>
+
+</html>
