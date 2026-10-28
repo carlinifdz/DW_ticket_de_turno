@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Acceso Administrativo</title>
+    <link rel="stylesheet"href="{{ url_for('static', filename='admin.css') }}">
+</head>
+
+<body>
+    <main class="login-container">
+        <div class="login-card">
+            <h1>Acceso administrativo</h1><br>
+
+            {% if error %}
+                <div class="alerta">
+                    {{ error }}
+                </div>
+            {% endif %}
+
+            <form method="POST"
+                  action="{{ url_for('admin.login') }}">
+
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                <label for="usuario">
+                    Usuario
+                </label>
+
+                <input
+                    type="text"
+                    id="usuario"
+                    name="usuario"
+                    required
+                    autocomplete="username">
+
+                <label for="password">
+                    Contraseña
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    required
+                    autocomplete="current-password">
+
+                <div class="captcha-box">
+                    <label>Verificación de seguridad</label>
+
+                    <div class="g-recaptcha"
+                        data-sitekey="{{ recaptcha_site_key }}">
+                    </div>
+                </div>
+
+                <button type="submit"
+                        class="btn-primary">
+                    Iniciar sesión
+                </button>
+
+            </form>
+
+            <a href="{{ url_for('publico.inicio') }}" class="volver">
+                ← Volver al inicio
+            </a>
+        </div>
+    </main>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</body>
+</html>

@@ -1,0 +1,166 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+
+    <title>Panel de Administración</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='admin.css') }}"
+    >
+</head>
+
+<body class="admin-body">
+
+    <header class="admin-header">
+
+        <a href="{{ url_for('admin.dashboard') }}"
+           class="logo">
+            Ticket de Turno
+        </a>
+
+        <form
+            method="POST"
+            action="{{ url_for('admin.logout') }}"
+        >
+            <input
+                type="hidden"
+                name="csrf_token"
+                value="{{ csrf_token }}"
+            >
+
+            <button type="submit"
+                    class="btn-logout">
+                Cerrar sesión
+            </button>
+        </form>
+
+    </header>
+
+    <main class="admin-container">
+
+        <section class="admin-welcome">
+
+            <span class="etiqueta">
+                PANEL ADMINISTRATIVO
+            </span>
+
+            <h1>Bienvenido, {{ nombre }}</h1>
+
+            <p>
+                Selecciona una opción para administrar
+                el sistema Ticket de Turno.
+            </p>
+
+        </section>
+
+        <section class="admin-grid">
+
+            <a
+                href="{{ url_for('admin.seccion', nombre='solicitudes') }}"
+                class="admin-card"
+            >
+                <span class="card-icon">⌕</span>
+                <h2>Consultar solicitudes</h2>
+                <p>
+                    Buscar solicitudes por CURP o nombre,
+                    visualizar, editar y eliminar registros.
+                </p>
+            </a>
+
+            <a
+                href="{{ url_for('admin.seccion', nombre='registrar') }}"
+                class="admin-card"
+            >
+                <span class="card-icon">＋</span>
+                <h2>Registrar solicitud</h2>
+                <p>
+                    Registrar solicitudes desde
+                    el panel administrativo.
+                </p>
+            </a>
+
+            <a
+                href="{{ url_for('admin.seccion', nombre='estatus') }}"
+                class="admin-card"
+            >
+                <span class="card-icon">✓</span>
+                <h2>Gestión de estatus</h2>
+                <p>
+                    Cambiar el estado de las solicitudes
+                    entre Pendiente y Resuelto.
+                </p>
+            </a>
+
+            <a
+                href="{{ url_for('admin.seccion', nombre='estadisticas') }}"
+                class="admin-card"
+            >
+                <span class="card-icon">▥</span>
+                <h2>Dashboard</h2>
+                <p>
+                    Gráficas de solicitudes pendientes
+                    y resueltas con filtro por municipio.
+                </p>
+            </a>
+
+            <a
+                href="{{ url_for('admin.seccion', nombre='municipios') }}"
+                class="admin-card"
+            >
+                <span class="card-icon">⌖</span>
+                <h2>Municipios</h2>
+                <p>
+                    Administrar el catálogo
+                    de municipios.
+                </p>
+            </a>
+
+            <a
+                href="{{ url_for('admin.seccion', nombre='niveles') }}"
+                class="admin-card"
+            >
+                <span class="card-icon">▤</span>
+                <h2>Niveles educativos</h2>
+                <p>
+                    Administrar el catálogo
+                    de niveles educativos.
+                </p>
+            </a>
+
+            <a
+                href="{{ url_for('admin.seccion', nombre='asuntos') }}"
+                class="admin-card"
+            >
+                <span class="card-icon">▣</span>
+                <h2>Asuntos</h2>
+                <p>
+                    Administrar el catálogo
+                    de trámites y asuntos.
+                </p>
+            </a>
+
+            <a
+                href="{{ url_for('admin.seccion', nombre='api') }}"
+                class="admin-card"
+            >
+                <span class="card-icon">{ API }</span>
+                <h2>API REST</h2>
+                <p>
+                    Sección informativa de la API REST
+                    que implementaremos posteriormente.
+                </p>
+            </a>
+
+        </section>
+
+    </main>
+
+</body>
+</html>

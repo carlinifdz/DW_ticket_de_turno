@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+
+    <title>{{ titulo }} | Ticket de Turno</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='admin.css') }}"
+    >
+</head>
+
+<body class="admin-body">
+
+    <header class="admin-header">
+
+        <a href="{{ url_for('admin.dashboard') }}"
+           class="logo">
+            Ticket de Turno
+        </a>
+
+        <form method="POST"
+              action="{{ url_for('admin.logout') }}">
+
+            <input
+                type="hidden"
+                name="csrf_token"
+                value="{{ csrf_token }}"
+            >
+
+            <button type="submit"
+                    class="btn-logout">
+                Cerrar sesión
+            </button>
+
+        </form>
+
+    </header>
+
+    <main class="admin-container">
+
+        <a
+            href="{{ url_for('admin.dashboard') }}"
+            class="volver-panel"
+        >
+            ← Volver al panel
+        </a>
+
+        <section class="placeholder">
+
+            <span class="etiqueta">
+                PRÓXIMAMENTE
+            </span>
+
+            <h1>{{ titulo }}</h1>
+
+            <p>
+                Esta funcionalidad se implementará
+                en una próxima etapa del proyecto.
+            </p>
+
+        </section>
+
+    </main>
+
+</body>
+</html>

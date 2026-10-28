@@ -1,0 +1,76 @@
+
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>Inicio | Ticket de Turno</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='inicio.css') }}">
+</head>
+
+<body>
+    <main class="pagina">
+
+        <div class="marca">
+            <span class="marca-icono">◈</span>
+            Ticket de Turno
+        </div>
+
+        <section class="bienvenida">
+            <span class="etiqueta">
+                SISTEMA DE ATENCIÓN ESCOLAR
+            </span>
+            <p>
+                Solicita un nuevo turno o accede a lasección de edición de solicitudes.
+            </p>
+        </section>
+
+        <section class="opciones">
+
+            <!-- CREAR TURNO -->
+            <a class="opcion"
+               href="{{ url_for('publico.crear_turno') }}">
+
+                <span class="icono">＋</span>
+
+                <span class="contenido">
+                    <strong>Crear turno</strong>
+                    <small>
+                        Completa el formulario con tus datos
+                        y obtén un número de turno.
+                    </small>
+                </span>
+            </a>
+
+            <a class="opcion"
+               href="{{ url_for('publico.editar_turno') }}">
+
+                <span class="icono">✎</span>
+
+                <span class="contenido">
+                    <strong>Editar turno</strong>
+                    <small>
+                        Sección para consultar o modificar
+                        una solicitud. Próximamente.
+                    </small>
+                </span>
+            </a>
+
+        </section>
+
+        <footer class="footer-inicio">
+
+            <p>Selecciona una opción para continuar.</p>
+
+            <a href="{{ url_for('admin.login') }}" class="boton-admin">
+                Acceso administrativo
+            </a>
+
+        </footer>
+    </main>
+</body>
+</html>

@@ -1,0 +1,285 @@
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f7fb;
+    color: #17243e;
+}
+
+/* LOGIN */
+
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 25px;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 430px;
+    background: white;
+    border-radius: 18px;
+    padding: 38px;
+    border: 1px solid #e3e8f1;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.06);
+}
+
+.login-icon {
+    font-size: 36px;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.login-card h1 {
+    font-size: 27px;
+    text-align: center;
+    margin: 0 0 12px;
+}
+
+.subtitulo {
+    color: #6a768b;
+    text-align: center;
+    line-height: 1.6;
+    margin-bottom: 28px;
+}
+
+.login-card label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 9px;
+}
+
+.login-card input {
+    display: block;
+    width: 100%;
+    padding: 13px;
+    margin-bottom: 20px;
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+    font-size: 15px;
+}
+
+.login-card input:focus {
+    outline: 2px solid #9abbe8;
+    border-color: #3565a2;
+}
+
+.captcha-box {
+    background: #f1f5fb;
+    border-radius: 10px;
+    padding: 17px;
+    margin-bottom: 20px;
+}
+
+.captcha-box p {
+    margin: 10px 0 15px;
+}
+
+.captcha-box input {
+    margin-bottom: 0;
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 14px;
+    background: #174781;
+    border: 0;
+    border-radius: 9px;
+    color: white;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background: #10345f;
+}
+
+.volver {
+    display: block;
+    text-align: center;
+    margin-top: 25px;
+    color: #315e96;
+    text-decoration: none;
+}
+
+.alerta {
+    padding: 13px;
+    background: #fff0f0;
+    color: #a12a2a;
+    border-radius: 9px;
+    margin-bottom: 20px;
+}
+
+/* PANEL ADMINISTRATIVO */
+
+.admin-header {
+    background: white;
+    padding: 18px 6%;
+    border-bottom: 1px solid #e4eaf2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+
+.logo {
+    text-decoration: none;
+    color: #173d77;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.btn-logout {
+    background: #fff;
+    color: #a63232;
+    border: 1px solid #e6bcbc;
+    padding: 10px 16px;
+    border-radius: 9px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn-logout:hover {
+    background: #fff0f0;
+}
+
+.admin-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 45px 25px;
+}
+
+.admin-welcome {
+    margin-bottom: 38px;
+}
+
+.etiqueta {
+    color: #3261ad;
+    font-weight: bold;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+}
+
+.admin-welcome h1 {
+    font-size: 36px;
+    margin: 13px 0;
+}
+
+.admin-welcome p {
+    color: #6c7890;
+    line-height: 1.6;
+}
+
+.admin-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.admin-card {
+    display: block;
+    background: white;
+    border: 1px solid #e1e7ef;
+    border-radius: 15px;
+    padding: 28px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform .15s, border-color .15s;
+}
+
+.admin-card:hover {
+    transform: translateY(-3px);
+    border-color: #86a5d1;
+}
+
+.card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 11px;
+    background: #e9f1fb;
+    color: #245493;
+    font-size: 23px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.admin-card h2 {
+    font-size: 20px;
+    margin: 0 0 10px;
+}
+
+.admin-card p {
+    font-size: 14px;
+    color: #66748b;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* PÁGINAS PROVISIONALES */
+
+.volver-panel {
+    color: #315e96;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.placeholder {
+    text-align: center;
+    background: white;
+    border: 1px solid #e3e8f1;
+    border-radius: 16px;
+    padding: 90px 20px;
+    margin-top: 35px;
+}
+
+.placeholder h1 {
+    font-size: 32px;
+}
+
+.placeholder p {
+    color: #6c7890;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 950px) {
+    .admin-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .admin-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-header {
+        padding: 16px;
+    }
+
+    .logo {
+        font-size: 17px;
+    }
+
+    .login-card {
+        padding: 25px;
+    }
+
+    .admin-container {
+        padding: 30px 17px;
+    }
+
+    .admin-welcome h1 {
+        font-size: 28px;
+    }
+}
