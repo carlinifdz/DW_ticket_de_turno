@@ -71,10 +71,7 @@
                     </label>
 
                     <select id="nivel" name="nivel">
-                        <option value="">Seleccione una opción</option>
-                        {% for item in niveles %}
-                        <option value="{{ item.nombre }}">{{ item.nombre }}</option>
-                        {% endfor %}
+                        <option value="">Cargando niveles educativos...</option>
                     </select>
                 </div>
 
@@ -84,10 +81,7 @@
                     </label>
 
                     <select id="municipio" name="municipio">
-                        <option value="">Seleccione un municipio</option>
-                        {% for item in municipios %}
-                        <option value="{{ item.nombre }}">{{ item.nombre }}</option>
-                        {% endfor %}
+                        <option value="">Cargando municipios...</option>
                     </select>
                 </div>
 
@@ -97,10 +91,7 @@
                     </label>
 
                     <select id="asunto" name="asunto">
-                        <option value="">Seleccione un asunto</option>
-                        {% for item in asuntos %}
-                        <option value="{{ item.nombre }}">{{ item.nombre }}</option>
-                        {% endfor %}
+                        <option value="">Cargando asuntos...</option>
                     </select>
                 </div>
 
@@ -113,8 +104,8 @@
             </div>
         </form>
     </main>
-
+    <script src="{{ url_for('static', filename='catalogos.js') }}"></script>
+    <script src="{{ url_for('static', filename='validacion.js') }}"></script>
     <script src="{{ url_for('static', filename='validacion.js') }}"></script>
 </body>
-
 </html>

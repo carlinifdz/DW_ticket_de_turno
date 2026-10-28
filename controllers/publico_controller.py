@@ -15,15 +15,7 @@ def inicio():
 # Formulario para solicitar un turno
 @publico_bp.get("/crear-turno")
 def crear_turno():
-    return render_template(
-        "ticket.html",
-        municipios=Municipio.query.filter_by(activo=True)
-            .order_by(Municipio.nombre).all(),
-        niveles=NivelEducativo.query.filter_by(activo=True)
-            .order_by(NivelEducativo.id_nivel).all(),
-        asuntos=Asunto.query.filter_by(activo=True)
-            .order_by(Asunto.id_asunto).all()
-    )
+    return render_template("ticket.html")
 
 @publico_bp.get("/editar-turno")
 def editar_turno():

@@ -221,7 +221,7 @@ formulario.addEventListener("submit", async function(event) {
         boton.disabled = true;
         boton.textContent = "Generando turno...";
 
-        const respuesta = await fetch("/generar-turno", {
+        const respuesta = await fetch("/api/solicitudes", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

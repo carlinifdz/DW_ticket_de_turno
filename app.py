@@ -1,4 +1,3 @@
-
 import click
 
 from flask import Flask
@@ -10,6 +9,7 @@ from extensions import db, migrate
 from controllers.publico_controller import publico_bp
 from controllers.admin_controller import admin_bp
 from models.usuario import Usuario
+from controllers.api_controller import api_bp
 
 import models
 
@@ -67,7 +67,6 @@ def crear_admin(usuario, nombre, password):
 
 
 def create_app(config_class=Config):
-
     app = Flask(__name__)
     app.config.from_object(config_class)
 
@@ -94,6 +93,7 @@ def create_app(config_class=Config):
 
     app.register_blueprint(publico_bp)
     app.register_blueprint(admin_bp)
+    app.register_blueprint(api_bp)
 
     app.cli.add_command(crear_admin)
 
