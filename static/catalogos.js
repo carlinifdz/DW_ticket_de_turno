@@ -1,19 +1,7 @@
 class CatalogoService {
 
     static async obtener(endpoint) {
-        const respuesta = await fetch(endpoint, {
-            headers: {
-                "Accept": "application/json"
-            }
-        });
-
-        if (!respuesta.ok) {
-            throw new Error(
-                "No se pudo cargar el catálogo"
-            );
-        }
-
-        return await respuesta.json();
+        return ApiService.get(endpoint);
     }
 
     static async cargarSelect(id, endpoint, mensaje) {

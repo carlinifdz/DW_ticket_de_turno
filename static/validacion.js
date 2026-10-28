@@ -221,19 +221,10 @@ formulario.addEventListener("submit", async function(event) {
         boton.disabled = true;
         boton.textContent = "Generando turno...";
 
-        const respuesta = await fetch("/api/solicitudes", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(datos)
-        });
-
-        const resultado = await respuesta.json();
-
-        if (!respuesta.ok) {
-            throw new Error(resultado.error || "Error al generar turno");
-        }
+        const resultado = await ApiService.post(
+            "/api/solicitudes",
+            datos
+        );
 
         alert(
             resultado.mensaje +
