@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Comprobante de turno | Ticket de Turno</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='inicio.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='comprobante.css') }}">
+</head>
+
+<body>
+    <main class="pagina centrada">
+
+        <div class="marca">
+            <span class="marca-icono">◈</span>
+            Ticket de Turno
+        </div>
+
+        <section class="comprobante"
+                 data-pdf="{{ url_for('publico.comprobante_pdf', folio=datos.folio) }}">
+
+            <span class="etiqueta">TURNO REGISTRADO</span>
+            <h1>Tu turno es el <strong>#{{ datos.numero_turno }}</strong></h1>
+            <p class="folio">Folio <strong>{{ datos.folio }}</strong></p>
+
+            <div class="comprobante-datos">
+
+                <div class="datos-lista">
+                    <div class="dato">
+                        <span>Nombre</span>
+                        <strong>{{ datos.nombre }}</strong>
+                    </div>
+                    <div class="dato">
+                        <span>CURP</span>
+                        <strong>{{ datos.curp }}</strong>
+                    </div>
+                    <div class="dato">
+                        <span>Municipio</span>
+                        <strong>{{ datos.municipio }}</strong>
+                    </div>
+                    <div class="dato">
+                        <span>Asunto</span>
+                        <strong>{{ datos.asunto }}</strong>
+                    </div>
+                    <div class="dato">
+                        <span>Número de turno</span>
+                        <strong>{{ datos.numero_turno }}</strong>
+                    </div>
+                </div>
+
+                <figure class="qr">
+                    <img src="{{ qr }}" alt="Código QR con la CURP del solicitante">
+                    <figcaption>Escanea para ver la CURP</figcaption>
+                </figure>
+
+            </div>
+
+            <div class="comprobante-acciones">
+                <a class="boton-descarga"
+                   href="{{ url_for('publico.comprobante_pdf', folio=datos.folio) }}">
+                    Descargar comprobante PDF
+                </a>
+                <a class="volver" href="{{ url_for('publico.inicio') }}">
+                    ← Volver al inicio
+                </a>
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="{{ url_for('static', filename='comprobante.js') }}"></script>
+</body>
+
+</html>

@@ -226,14 +226,14 @@ formulario.addEventListener("submit", async function(event) {
             datos
         );
 
-        alert(
-            resultado.mensaje +
-            "\nFolio: " +
-            resultado.folio
-        );
-
         formulario.reset();
         limpiarErrores();
+
+        // Ir al comprobante; descarga=1 inicia la descarga automatica del PDF.
+        window.location.href =
+            "/comprobante/" +
+            encodeURIComponent(resultado.folio) +
+            "?descarga=1";
 
     } catch (error) {
         console.error("Error:", error);

@@ -1,0 +1,136 @@
+.centrada .comprobante {
+    margin: 40px auto;
+    width: 100%;
+    max-width: 640px;
+    background: #fff;
+    border: 1px solid #e2e8f2;
+    border-radius: 18px;
+    padding: 36px;
+    box-shadow: 0 10px 32px #1832500a;
+    text-align: center;
+}
+
+.comprobante .etiqueta {
+    font-size: 16px;
+    letter-spacing: 2px;
+}
+
+.comprobante h1 {
+    font-size: clamp(28px, 4vw, 40px);
+    margin: 10px 0 4px;
+}
+
+.comprobante h1 strong {
+    color: #173d77;
+}
+
+.comprobante .folio {
+    color: #627089;
+    margin: 0 0 24px;
+    font-size: 16px;
+}
+
+.comprobante-datos {
+    display: flex;
+    gap: 28px;
+    align-items: center;
+    justify-content: space-between;
+    text-align: left;
+    flex-wrap: wrap;
+}
+
+.datos-lista {
+    flex: 1 1 260px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.dato {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    border-bottom: 1px solid #eef2f8;
+    padding-bottom: 10px;
+}
+
+.dato span {
+    font-size: 13px;
+    color: #8893a6;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+}
+
+.dato strong {
+    font-size: 16px;
+    color: #16233e;
+}
+
+.qr {
+    margin: 0;
+    text-align: center;
+}
+
+.qr img {
+    width: 160px;
+    height: 160px;
+    border: 1px solid #e2e8f2;
+    border-radius: 12px;
+    padding: 8px;
+    background: #fff;
+}
+
+.qr figcaption {
+    font-size: 12px;
+    color: #8893a6;
+    margin-top: 8px;
+}
+
+.comprobante-acciones {
+    margin-top: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    align-items: center;
+}
+
+.boton-descarga {
+    display: inline-block;
+    background: #184781;
+    color: #fff;
+    padding: 15px 26px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.boton-descarga:hover {
+    background: #10335f;
+}
+
+.comprobante .volver {
+    background: none;
+    color: #3261ad;
+    margin-top: 0;
+    padding: 0;
+    font-weight: 600;
+}
+
+.comprobante .volver:hover {
+    background: none;
+    text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+    .centrada .comprobante {
+        padding: 24px;
+    }
+
+    .comprobante-datos {
+        justify-content: center;
+    }
+
+    .qr {
+        order: -1;
+    }
+}
