@@ -7,6 +7,11 @@ from services.turno_service import (
     TurnoService,
     SolicitudInvalida
 )
+from services.solicitud_publica_service import (
+    SolicitudPublicaService,
+    SolicitudNoEncontrada,
+    EdicionInvalida
+)
 
 api_bp = Blueprint(
     "api",
@@ -105,4 +110,69 @@ def crear_solicitud():
 
         return jsonify({
             "error": "No se pudo guardar la solicitud"
+        }), 500
+
+
+@api_bp.post("/solicitudes/consulta")
+def consultar_solicitud():
+    if not request.is_json:
+        return jsonify({
+            "error": "Se requiere enviar datos JSON"
+        }), 415
+
+    datos = request.get_json(silent=True) or {}
+
+    try:
+        resultado = SolicitudPublicaService.consultar(
+            datos.get("curp"),
+            datos.get("municipio"),
+            datos.get("numero_turno")
+        )
+
+        return jsonify(resultado), 200
+
+    except SolicitudNoEncontrada as error:
+        return jsonify({
+            "error": str(error)
+        }), 404
+
+
+@api_bp.put("/solicitudes/<folio>")
+def actualizar_solicitud(folio):
+    if not request.is_json:
+        return jsonify({
+            "error": "Se requiere enviar datos JSON"
+        }), 415
+
+    datos = request.get_json(silent=True) or {}
+
+    try:
+        resultado = SolicitudPublicaService.actualizar(
+            folio,
+            datos.get("curp"),
+            datos
+        )
+
+        return jsonify({
+            "mensaje": "Solicitud actualizada correctamente",
+            **resultado
+        }), 200
+
+    except SolicitudNoEncontrada as error:
+        return jsonify({
+            "error": str(error)
+        }), 404
+
+    except EdicionInvalida as error:
+        return jsonify({
+            "error": str(error)
+        }), 400
+
+    except SQLAlchemyError:
+        current_app.logger.exception(
+            "Error al actualizar la solicitud"
+        )
+
+        return jsonify({
+            "error": "No se pudo actualizar la solicitud"
         }), 500
