@@ -33,6 +33,10 @@ class ComprobantePDF:
         filas = [
             ("Nombre", datos["nombre"]),
             ("CURP", datos["curp"]),
+            ("Responsable", datos["responsable"]),
+            ("Telefono", datos["telefono"]),
+            ("Celular", datos["celular"]),
+            ("Correo", datos["correo"]),
             ("Municipio", datos["municipio"]),
             ("Asunto", datos["asunto"]),
             ("Nivel", datos["nivel"]),
