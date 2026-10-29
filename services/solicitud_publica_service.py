@@ -1,3 +1,5 @@
+import re
+
 from extensions import db
 from models import Municipio, Solicitud, Turno, NivelEducativo, Asunto
 
@@ -6,8 +8,15 @@ class SolicitudNoEncontrada(LookupError):
     pass
 
 
+class EdicionInvalida(ValueError):
+    pass
+
+
 class SolicitudPublicaService:
-    """Consulta publica de una solicitud por CURP + municipio + numero de turno."""
+    """Consulta y edicion publica de una solicitud por CURP + municipio + numero."""
+
+    CAMPOS_EDITABLES = ("responsable", "nombre", "paterno", "materno",
+                        "telefono", "celular", "correo")
 
     @staticmethod
     def _buscar_turno(municipio_nombre, numero_turno):
@@ -37,6 +46,46 @@ class SolicitudPublicaService:
             raise SolicitudNoEncontrada("No existe un turno con esos datos")
 
         return SolicitudPublicaService._serializar(solicitud, turno)
+
+    @staticmethod
+    def actualizar(folio, curp, datos):
+        curp = str(curp or "").strip().upper()
+        turno = Turno.query.filter_by(
+            folio=str(folio or "").strip().upper()
+        ).first()
+        if turno is None:
+            raise SolicitudNoEncontrada("No existe un turno con esos datos")
+
+        solicitud = db.session.get(Solicitud, turno.id_solicitud)
+        if solicitud is None or solicitud.curp != curp:
+            raise SolicitudNoEncontrada("No existe un turno con esos datos")
+
+        valores = {
+            campo: str((datos or {}).get(campo) or "").strip()
+            for campo in SolicitudPublicaService.CAMPOS_EDITABLES
+        }
+        SolicitudPublicaService._validar(valores)
+
+        try:
+            for campo, valor in valores.items():
+                setattr(solicitud, campo, valor)
+            db.session.commit()
+        except Exception:
+            db.session.rollback()
+            raise
+
+        return SolicitudPublicaService._serializar(solicitud, turno)
+
+    @staticmethod
+    def _validar(valores):
+        for campo in SolicitudPublicaService.CAMPOS_EDITABLES:
+            if not valores[campo]:
+                raise EdicionInvalida(f"El campo {campo} es obligatorio")
+        for campo in ("telefono", "celular"):
+            if not re.fullmatch(r"[0-9]{10}", valores[campo]):
+                raise EdicionInvalida(f"El campo {campo} debe contener 10 digitos")
+        if not re.fullmatch(r"[^\s@]+@[^\s@]+\.[^\s@]+", valores["correo"]):
+            raise EdicionInvalida("Correo electronico invalido")
 
     @staticmethod
     def _serializar(solicitud, turno):
