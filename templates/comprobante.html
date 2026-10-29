@@ -19,7 +19,8 @@
             Ticket de Turno
         </div>
 
-        <section class="comprobante">
+        <section class="comprobante"
+                 data-pdf="{{ url_for('publico.comprobante_pdf', folio=datos.folio) }}">
 
             <span class="etiqueta">TURNO REGISTRADO</span>
             <h1>Tu turno es el <strong>#{{ datos.numero_turno }}</strong></h1>
@@ -70,6 +71,8 @@
         </section>
 
     </main>
+
+    <script src="{{ url_for('static', filename='comprobante.js') }}"></script>
 </body>
 
 </html>
