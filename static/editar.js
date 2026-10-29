@@ -2,6 +2,7 @@ const formConsulta = document.getElementById("formularioConsulta");
 const formEdicion = document.getElementById("formularioEdicion");
 const mensajeConsulta = document.getElementById("mensajeConsulta");
 const mensajeEdicion = document.getElementById("mensajeEdicion");
+const descargarPdf = document.getElementById("descargarPdf");
 
 const CAMPOS = [
     "responsable", "nombre", "paterno",
@@ -39,6 +40,7 @@ function limpiarMensaje(elemento) {
 function llenarFormulario(solicitud) {
     folioActual = solicitud.folio;
     curpActual = solicitud.curp;
+    descargarPdf.hidden = true;
 
     document.getElementById("resumenFolio").textContent = solicitud.folio;
     document.getElementById("resumenTurno").textContent = solicitud.numero_turno;
@@ -58,6 +60,13 @@ document.getElementById("curpConsulta").addEventListener("input", function () {
 ["telefono", "celular"].forEach(id => {
     document.getElementById(id).addEventListener("input", function () {
         this.value = this.value.replace(/\D/g, "").slice(0, 10);
+    });
+});
+
+// Si cambian un dato despues de guardar, ocultamos el PDF hasta re-guardar.
+formEdicion.querySelectorAll("input").forEach(campo => {
+    campo.addEventListener("input", () => {
+        descargarPdf.hidden = true;
     });
 });
 
@@ -100,6 +109,11 @@ formEdicion.addEventListener("submit", async function (event) {
         );
 
         mostrarMensaje(mensajeEdicion, resultado.mensaje, "exito");
+
+        // El PDF se genera desde la BD, asi que reflejara lo recien guardado.
+        descargarPdf.href =
+            "/comprobante/" + encodeURIComponent(folioActual) + "/pdf";
+        descargarPdf.hidden = false;
     } catch (error) {
         mostrarMensaje(mensajeEdicion, error.message, "error");
     }

@@ -40,3 +40,23 @@
 .resumen-turno strong {
     color: #102d59;
 }
+
+.boton-pdf {
+    display: inline-block;
+    margin-top: 16px;
+    background: #184781;
+    color: #fff;
+    padding: 12px 22px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.boton-pdf:hover {
+    background: #102d59;
+}
+
+.boton-pdf[hidden] {
+    display: none;
+}
