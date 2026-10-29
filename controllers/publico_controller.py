@@ -1,4 +1,7 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, Response, abort
+
+from services.comprobante_service import ComprobanteService, ComprobanteNoEncontrado
+from services.comprobante_pdf import ComprobantePDF
 
 publico_bp = Blueprint("publico", __name__)
 
@@ -16,3 +19,19 @@ def crear_turno():
 @publico_bp.get("/editar-turno")
 def editar_turno():
     return render_template("editar_turno.html")
+
+
+@publico_bp.get("/comprobante/<folio>/pdf")
+def comprobante_pdf(folio):
+    try:
+        datos = ComprobanteService.obtener_por_folio(folio)
+    except ComprobanteNoEncontrado:
+        abort(404)
+
+    pdf = ComprobantePDF.generar(datos)
+    archivo = f"comprobante_{datos['folio']}.pdf"
+    return Response(
+        pdf,
+        mimetype="application/pdf",
+        headers={"Content-Disposition": f"attachment; filename={archivo}"},
+    )
