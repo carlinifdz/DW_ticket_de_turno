@@ -4,3 +4,5 @@ Flask-Migrate>=4,<5
 PyMySQL>=1.1,<2
 python-dotenv>=1,<2
 requests
+fpdf2>=2.7,<3
+segno>=1.6,<2
