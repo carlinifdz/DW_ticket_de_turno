@@ -119,6 +119,17 @@ def dashboard():
     )
 
 
+# Gestión del catálogo de municipios
+@admin_bp.get("/municipios")
+@login_requerido
+def municipios():
+    return render_template(
+        "admin/municipios.html",
+        nombre=session.get("admin_nombre"),
+        csrf_token=session.get("logout_csrf")
+    )
+
+
 # Opciones provisionales del administrador
 SECCIONES = {
     "solicitudes": "Consulta de solicitudes",
@@ -135,6 +146,9 @@ SECCIONES = {
 @admin_bp.get("/seccion/<nombre>")
 @login_requerido
 def seccion(nombre):
+
+    if nombre == "municipios":
+        return redirect(url_for("admin.municipios"))
 
     if nombre not in SECCIONES:
         abort(404)

@@ -1,14 +1,29 @@
 
 class ApiService {
 
+    static getCsrfToken() {
+        const meta = document.querySelector('meta[name="csrf-token"]');
+        return meta ? meta.getAttribute("content") : null;
+    }
+
     static async solicitar(ruta, opciones = {}) {
+        const headers = {
+            "Accept": "application/json",
+            ...(opciones.headers || {})
+        };
+
+        const metodo = (opciones.method || "GET").toUpperCase();
+        if (["POST", "PUT", "PATCH", "DELETE"].includes(metodo) && !headers["X-CSRF-Token"]) {
+            const token = this.getCsrfToken();
+            if (token) {
+                headers["X-CSRF-Token"] = token;
+            }
+        }
+
         const configuracion = {
             credentials: "same-origin",
             ...opciones,
-            headers: {
-                "Accept": "application/json",
-                ...(opciones.headers || {})
-            }
+            headers
         };
 
         const respuesta = await fetch(ruta, configuracion);
