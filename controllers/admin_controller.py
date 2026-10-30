@@ -119,6 +119,17 @@ def dashboard():
     )
 
 
+# Consulta y administracion de solicitudes (CRUD)
+@admin_bp.get("/solicitudes")
+@login_requerido
+def solicitudes():
+    return render_template(
+        "admin/solicitudes.html",
+        nombre=session.get("admin_nombre"),
+        csrf_token=session.get("logout_csrf")
+    )
+
+
 # Opciones provisionales del administrador
 SECCIONES = {
     "solicitudes": "Consulta de solicitudes",
