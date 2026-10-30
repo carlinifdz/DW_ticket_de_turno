@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <title>Administración de Municipios - Ticket de Turno</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+</head>
+<body class="admin-body">
+
+    <header class="admin-header">
+        <a href="{{ url_for('admin.dashboard') }}" class="logo">
+            Ticket de Turno
+        </a>
+
+        <div class="header-usuario">
+            <span class="nombre-admin">{{ nombre }}</span>
+            <form method="POST" action="{{ url_for('admin.logout') }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                <button type="submit" class="btn-logout">Cerrar sesión</button>
+            </form>
+        </div>
+    </header>
+
+    <main class="admin-container">
+        <div class="breadcrumb-nav">
+            <a href="{{ url_for('admin.dashboard') }}" class="volver-panel">← Volver al panel</a>
+        </div>
+
+        <section class="admin-welcome">
+            <span class="etiqueta">CATÁLOGO DEL SISTEMA</span>
+            <h1>Administración de Municipios</h1>
+            <p>
+                Agregue, edite o active/desactive los municipios disponibles para la asignación de turnos.
+                Los municipios desactivados no estarán disponibles para nuevos turnos, pero sus registros históricos se conservan íntegros.
+            </p>
+        </section>
+
+        <!-- Mensajes globales de alerta/éxito -->
+        <div id="mensajeAlerta" class="mensaje-alerta" hidden></div>
+
+        <!-- Formulario para agregar nuevo municipio -->
+        <section class="card-formulario">
+            <h2>Agregar Nuevo Municipio</h2>
+            <form id="formCrearMunicipio" class="form-inline">
+                <div class="form-group-inline">
+                    <label for="nuevoNombreMunicipio" class="sr-only">Nombre del municipio</label>
+                    <input
+                        type="text"
+                        id="nuevoNombreMunicipio"
+                        name="nombre"
+                        placeholder="Ej. Arteaga, Monclova, etc."
+                        maxlength="100"
+                        required
+                        autocomplete="off"
+                    >
+                </div>
+                <button type="submit" id="btnCrearMunicipio" class="btn-primary-admin">
+                    <span>＋</span> Agregar Municipio
+                </button>
+            </form>
+        </section>
+
+        <!-- Listado y filtros -->
+        <section class="card-tabla">
+            <div class="tabla-toolbar">
+                <div class="busqueda-box">
+                    <label for="inputBuscar" class="sr-only">Buscar municipio</label>
+                    <input
+                        type="search"
+                        id="inputBuscar"
+                        placeholder="Buscar por nombre..."
+                        autocomplete="off"
+                    >
+                </div>
+
+                <div class="filtro-box">
+                    <label for="selectFiltroEstado">Estado:</label>
+                    <select id="selectFiltroEstado">
+                        <option value="todos">Todos los municipios</option>
+                        <option value="activos" selected>Solo activos</option>
+                        <option value="inactivos">Solo inactivos</option>
+                    </select>
+                </div>
+
+                <div class="conteo-box">
+                    <span id="conteoMunicipios">Cargando municipios...</span>
+                </div>
+            </div>
+
+            <!-- Contenedor con scroll para responsividad -->
+            <div class="tabla-responsive">
+                <table class="tabla-admin" id="tablaMunicipios">
+                    <thead>
+                        <tr>
+                            <th style="width: 80px;">ID</th>
+                            <th>Nombre del Municipio</th>
+                            <th style="width: 140px; text-align: center;">Último Turno</th>
+                            <th style="width: 120px; text-align: center;">Estado</th>
+                            <th style="width: 220px; text-align: center;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyMunicipios">
+                        <tr>
+                            <td colspan="5" class="texto-cargando">Cargando catálogo de municipios...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='api.js') }}"></script>
+    <script src="{{ url_for('static', filename='municipios_admin.js') }}"></script>
+</body>
+</html>
