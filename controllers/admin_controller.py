@@ -130,6 +130,21 @@ def municipios():
     )
 
 
+# Gestión de catálogos generales (Niveles Educativos y Asuntos)
+@admin_bp.get("/catalogos")
+@admin_bp.get("/niveles")
+@admin_bp.get("/asuntos")
+@login_requerido
+def catalogos():
+    tab_inicial = "asuntos" if request.path.endswith("/asuntos") else "niveles"
+    return render_template(
+        "admin/catalogos.html",
+        nombre=session.get("admin_nombre"),
+        csrf_token=session.get("logout_csrf"),
+        tab_inicial=tab_inicial
+    )
+
+
 # Opciones provisionales del administrador
 SECCIONES = {
     "solicitudes": "Consulta de solicitudes",
@@ -149,6 +164,9 @@ def seccion(nombre):
 
     if nombre == "municipios":
         return redirect(url_for("admin.municipios"))
+
+    if nombre in ("niveles", "asuntos", "catalogos"):
+        return redirect(url_for("admin.catalogos", **({"_anchor": nombre} if nombre != "catalogos" else {})))
 
     if nombre not in SECCIONES:
         abort(404)

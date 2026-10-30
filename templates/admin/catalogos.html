@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <title>Administración de Catálogos - Ticket de Turno</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+</head>
+<body class="admin-body">
+
+    <header class="admin-header">
+        <a href="{{ url_for('admin.dashboard') }}" class="logo">
+            Ticket de Turno
+        </a>
+
+        <div class="header-usuario">
+            <span class="nombre-admin">{{ nombre }}</span>
+            <form method="POST" action="{{ url_for('admin.logout') }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                <button type="submit" class="btn-logout">Cerrar sesión</button>
+            </form>
+        </div>
+    </header>
+
+    <main class="admin-container">
+        <div class="breadcrumb-nav">
+            <a href="{{ url_for('admin.dashboard') }}" class="volver-panel">← Volver al panel</a>
+        </div>
+
+        <section class="admin-welcome">
+            <span class="etiqueta">CATÁLOGOS DEL SISTEMA</span>
+            <h1>Administración de Catálogos</h1>
+            <p>
+                Gestione las opciones de niveles educativos y trámites (asuntos) disponibles en el sistema.
+                Los elementos desactivados se excluyen del formulario público sin afectar las solicitudes históricas.
+            </p>
+        </section>
+
+        <!-- Mensajes globales de alerta/éxito -->
+        <div id="mensajeAlerta" class="mensaje-alerta" hidden></div>
+
+        <!-- Selector de pestañas / tabs -->
+        <div class="tabs-container">
+            <button type="button" class="tab-btn active" data-tab="niveles" id="tabBtnNiveles">
+                ▤ Niveles Educativos
+            </button>
+            <button type="button" class="tab-btn" data-tab="asuntos" id="tabBtnAsuntos">
+                ▣ Trámites y Asuntos
+            </button>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- SECCIÓN: NIVELES EDUCATIVOS               -->
+        <!-- ========================================== -->
+        <div id="panelNiveles" class="tab-panel active">
+            <!-- Formulario agregar nivel -->
+            <section class="card-formulario">
+                <h2>Agregar Nuevo Nivel Educativo</h2>
+                <form id="formCrearNivel" class="form-inline">
+                    <div class="form-group-inline">
+                        <label for="nuevoNombreNivel" class="sr-only">Nombre del nivel educativo</label>
+                        <input
+                            type="text"
+                            id="nuevoNombreNivel"
+                            placeholder="Ej. Licenciatura, Posgrado, Técnico, etc."
+                            maxlength="80"
+                            required
+                            autocomplete="off"
+                        >
+                    </div>
+                    <button type="submit" id="btnCrearNivel" class="btn-primary-admin">
+                        <span>＋</span> Agregar Nivel
+                    </button>
+                </form>
+            </section>
+
+            <!-- Tabla y filtros niveles -->
+            <section class="card-tabla">
+                <div class="tabla-toolbar">
+                    <div class="busqueda-box">
+                        <label for="inputBuscarNiveles" class="sr-only">Buscar nivel educativo</label>
+                        <input
+                            type="search"
+                            id="inputBuscarNiveles"
+                            placeholder="Buscar nivel educativo..."
+                            autocomplete="off"
+                        >
+                    </div>
+
+                    <div class="filtro-box">
+                        <label for="selectFiltroNiveles">Estado:</label>
+                        <select id="selectFiltroNiveles">
+                            <option value="todos">Todos</option>
+                            <option value="activos" selected>Solo activos</option>
+                            <option value="inactivos">Solo inactivos</option>
+                        </select>
+                    </div>
+
+                    <div class="conteo-box">
+                        <span id="conteoNiveles">Cargando niveles...</span>
+                    </div>
+                </div>
+
+                <div class="tabla-responsive">
+                    <table class="tabla-admin">
+                        <thead>
+                            <tr>
+                                <th style="width: 80px;">ID</th>
+                                <th>Nivel Educativo</th>
+                                <th style="width: 140px; text-align: center;">Estado</th>
+                                <th style="width: 220px; text-align: center;">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodyNiveles">
+                            <tr>
+                                <td colspan="4" class="texto-cargando">Cargando catálogo de niveles educativos...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- SECCIÓN: ASUNTOS                          -->
+        <!-- ========================================== -->
+        <div id="panelAsuntos" class="tab-panel">
+            <!-- Formulario agregar asunto -->
+            <section class="card-formulario">
+                <h2>Agregar Nuevo Asunto o Trámite</h2>
+                <form id="formCrearAsunto" class="form-inline">
+                    <div class="form-group-inline">
+                        <label for="nuevoNombreAsunto" class="sr-only">Nombre del asunto</label>
+                        <input
+                            type="text"
+                            id="nuevoNombreAsunto"
+                            placeholder="Ej. Beca, Certificado, Equivalencia, etc."
+                            maxlength="100"
+                            required
+                            autocomplete="off"
+                        >
+                    </div>
+                    <button type="submit" id="btnCrearAsunto" class="btn-primary-admin">
+                        <span>＋</span> Agregar Asunto
+                    </button>
+                </form>
+            </section>
+
+            <!-- Tabla y filtros asuntos -->
+            <section class="card-tabla">
+                <div class="tabla-toolbar">
+                    <div class="busqueda-box">
+                        <label for="inputBuscarAsuntos" class="sr-only">Buscar asunto</label>
+                        <input
+                            type="search"
+                            id="inputBuscarAsuntos"
+                            placeholder="Buscar asunto..."
+                            autocomplete="off"
+                        >
+                    </div>
+
+                    <div class="filtro-box">
+                        <label for="selectFiltroAsuntos">Estado:</label>
+                        <select id="selectFiltroAsuntos">
+                            <option value="todos">Todos</option>
+                            <option value="activos" selected>Solo activos</option>
+                            <option value="inactivos">Solo inactivos</option>
+                        </select>
+                    </div>
+
+                    <div class="conteo-box">
+                        <span id="conteoAsuntos">Cargando asuntos...</span>
+                    </div>
+                </div>
+
+                <div class="tabla-responsive">
+                    <table class="tabla-admin">
+                        <thead>
+                            <tr>
+                                <th style="width: 80px;">ID</th>
+                                <th>Asunto o Trámite</th>
+                                <th style="width: 140px; text-align: center;">Estado</th>
+                                <th style="width: 220px; text-align: center;">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodyAsuntos">
+                            <tr>
+                                <td colspan="4" class="texto-cargando">Cargando catálogo de asuntos...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='api.js') }}"></script>
+    <script src="{{ url_for('static', filename='catalogos_admin.js') }}"></script>
+</body>
+</html>

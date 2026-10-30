@@ -634,3 +634,50 @@ body {
 .texto-error {
     color: #dc2626;
 }
+
+/* PESTAÑAS (TABS) ADMINISTRATIVAS */
+.tabs-container {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 0;
+}
+
+.tab-btn {
+    padding: 12px 24px;
+    font-size: 15px;
+    font-weight: 600;
+    background: transparent;
+    color: #64748b;
+    border: 0;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    transition: all .15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: -2px;
+}
+
+.tab-btn:hover {
+    color: #174781;
+    background: #f1f5f9;
+    border-radius: 8px 8px 0 0;
+}
+
+.tab-btn.active {
+    color: #174781;
+    border-bottom-color: #174781;
+    background: white;
+    border-radius: 8px 8px 0 0;
+}
+
+.tab-panel {
+    display: none;
+    animation: fadeIn .2s ease-in-out;
+}
+
+.tab-panel.active {
+    display: block;
+}
