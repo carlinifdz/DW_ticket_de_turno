@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Consulta de solicitudes | Ticket de Turno</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin_solicitudes.css') }}">
+</head>
+
+<body class="admin-body">
+
+    <header class="admin-header">
+        <a href="{{ url_for('admin.dashboard') }}" class="logo">
+            Ticket de Turno
+        </a>
+
+        <form method="POST" action="{{ url_for('admin.logout') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            <button type="submit" class="btn-logout">Cerrar sesión</button>
+        </form>
+    </header>
+
+    <main class="admin-container">
+
+        <a href="{{ url_for('admin.dashboard') }}" class="volver-panel">
+            ← Volver al panel
+        </a>
+
+        <div class="sol-encabezado">
+            <div>
+                <span class="etiqueta">PANEL ADMINISTRATIVO</span>
+                <h1>Consulta de solicitudes</h1>
+            </div>
+            <button id="btnRegistrar" class="btn-primary btn-registrar">
+                + Registrar solicitud
+            </button>
+        </div>
+
+        <!-- Filtros -->
+        <form id="filtros" class="filtros">
+            <input type="text" name="curp" id="fCurp" placeholder="CURP" maxlength="18">
+            <input type="text" name="nombre" id="fNombre" placeholder="Nombre">
+            <input type="text" name="folio" id="fFolio" placeholder="Folio">
+            <input type="number" name="numero_turno" id="fTurno" placeholder="N° turno" min="1">
+            <select name="municipio" id="fMunicipio">
+                <option value="">Municipio (todos)</option>
+            </select>
+            <select name="estatus" id="fEstatus">
+                <option value="">Estatus (todos)</option>
+                <option value="Pendiente">Pendiente</option>
+                <option value="Resuelto">Resuelto</option>
+            </select>
+            <button type="submit" class="btn-primary">Buscar</button>
+            <button type="button" id="btnLimpiar" class="btn-sec">Limpiar</button>
+        </form>
+
+        <!-- Tabla -->
+        <div class="tabla-wrap">
+            <table class="tabla">
+                <thead>
+                    <tr>
+                        <th>Folio</th>
+                        <th>Turno</th>
+                        <th>Nombre</th>
+                        <th>CURP</th>
+                        <th>Municipio</th>
+                        <th>Asunto</th>
+                        <th>Estatus</th>
+                        <th>Fecha</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="filas"></tbody>
+            </table>
+        </div>
+
+        <p id="sinDatos" class="sin-datos" hidden>
+            No se encontraron solicitudes.
+        </p>
+
+        <!-- Paginación -->
+        <div class="paginacion">
+            <button id="btnPrev" class="btn-sec" disabled>← Anterior</button>
+            <span id="infoPagina">Página 1</span>
+            <button id="btnNext" class="btn-sec" disabled>Siguiente →</button>
+        </div>
+
+    </main>
+
+    <!-- Modal: registrar / editar -->
+    <div id="modalForm" class="modal" hidden>
+        <div class="modal-card">
+            <h2 id="formTitulo">Registrar solicitud</h2>
+
+            <form id="formSolicitud" class="modal-form">
+                <div class="campo-form campo-ancho">
+                    <label>Responsable</label>
+                    <input type="text" name="responsable">
+                </div>
+                <div class="campo-form">
+                    <label>CURP</label>
+                    <input type="text" name="curp" maxlength="18">
+                </div>
+                <div class="campo-form">
+                    <label>Nombre</label>
+                    <input type="text" name="nombre">
+                </div>
+                <div class="campo-form">
+                    <label>Paterno</label>
+                    <input type="text" name="paterno">
+                </div>
+                <div class="campo-form">
+                    <label>Materno</label>
+                    <input type="text" name="materno">
+                </div>
+                <div class="campo-form">
+                    <label>Teléfono</label>
+                    <input type="tel" name="telefono" maxlength="10">
+                </div>
+                <div class="campo-form">
+                    <label>Celular</label>
+                    <input type="tel" name="celular" maxlength="10">
+                </div>
+                <div class="campo-form campo-ancho">
+                    <label>Correo</label>
+                    <input type="email" name="correo">
+                </div>
+                <div class="campo-form">
+                    <label>Municipio</label>
+                    <select name="municipio" id="formMunicipio"></select>
+                </div>
+                <div class="campo-form">
+                    <label>Nivel educativo</label>
+                    <select name="nivel" id="formNivel"></select>
+                </div>
+                <div class="campo-form">
+                    <label>Asunto</label>
+                    <select name="asunto" id="formAsunto"></select>
+                </div>
+                <div class="campo-form">
+                    <label>Estatus</label>
+                    <select name="estatus" id="formEstatus">
+                        <option value="Pendiente">Pendiente</option>
+                        <option value="Resuelto">Resuelto</option>
+                    </select>
+                </div>
+
+                <p id="formError" class="form-error" hidden></p>
+
+                <div class="modal-acciones campo-ancho">
+                    <button type="button" id="cerrarForm" class="btn-sec">Cancelar</button>
+                    <button type="submit" class="btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: detalle -->
+    <div id="modalDetalle" class="modal" hidden>
+        <div class="modal-card">
+            <h2>Detalle de la solicitud</h2>
+            <dl id="detalleContenido" class="detalle"></dl>
+            <div class="modal-acciones">
+                <button type="button" id="cerrarDetalle" class="btn-sec">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='api.js') }}"></script>
+    <script src="{{ url_for('static', filename='admin_solicitudes.js') }}"></script>
+</body>
+
+</html>

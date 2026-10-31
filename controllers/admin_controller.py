@@ -1,3 +1,4 @@
+
 import os
 import secrets
 from functools import wraps
@@ -119,6 +120,17 @@ def dashboard():
     )
 
 
+# Consulta y administracion de solicitudes (CRUD)
+@admin_bp.get("/solicitudes")
+@login_requerido
+def solicitudes():
+    return render_template(
+        "admin/solicitudes.html",
+        nombre=session.get("admin_nombre"),
+        csrf_token=session.get("logout_csrf")
+    )
+
+
 # Gestión del catálogo de municipios
 @admin_bp.get("/municipios")
 @login_requerido
@@ -146,6 +158,9 @@ SECCIONES = {
 @admin_bp.get("/seccion/<nombre>")
 @login_requerido
 def seccion(nombre):
+
+    if nombre == "solicitudes":
+        return redirect(url_for("admin.solicitudes"))
 
     if nombre == "municipios":
         return redirect(url_for("admin.municipios"))
