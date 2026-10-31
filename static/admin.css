@@ -634,3 +634,114 @@ body {
 .texto-error {
     color: #dc2626;
 }
+
+/* PESTAÑAS (TABS) ADMINISTRATIVAS - MEJOR ALINEADAS Y MODERNAS */
+.tabs-container {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 28px;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 0;
+}
+
+.tab-btn {
+    padding: 14px 26px;
+    font-size: 15px;
+    font-weight: 700;
+    background: #f8fafc;
+    color: #64748b;
+    border: 1px solid #e2e8f0;
+    border-bottom: 0;
+    border-radius: 12px 12px 0 0;
+    cursor: pointer;
+    transition: all .2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: -2px;
+    box-shadow: inset 0 -2px 4px rgba(0,0,0,0.02);
+}
+
+.tab-btn:hover {
+    color: #174781;
+    background: #eef4fb;
+}
+
+.tab-btn.active {
+    color: #174781;
+    background: white;
+    border-color: #cbd5e1;
+    border-bottom: 3px solid #174781;
+    box-shadow: 0 -3px 10px rgba(0,0,0,0.03);
+}
+
+.tab-panel {
+    display: none;
+    animation: fadeIn .2s ease-in-out;
+}
+
+.tab-panel.active {
+    display: block;
+}
+
+/* ALINEACIÓN Y ANCHOS FIJOS EN TABLAS ADMINISTRATIVAS */
+.tabla-admin {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; /* Asegura anchos uniformes entre columnas */
+}
+
+.tabla-admin th,
+.tabla-admin td {
+    padding: 14px 18px;
+}
+
+.col-id {
+    width: 70px;
+}
+
+.col-estado {
+    width: 130px;
+}
+
+.col-acciones {
+    width: 200px;
+}
+
+.acciones-inline {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-accion {
+    min-width: 82px;
+    text-align: center;
+}
+
+/* BUSCADOR Y TOOLBAR BIEN DISTRIBUIDOS */
+.tabla-toolbar {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+}
+
+.filtro-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.filtro-box select {
+    padding: 8px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 14px;
+    background-color: white;
+    font-weight: 500;
+}
+
