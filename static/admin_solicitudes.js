@@ -1,5 +1,4 @@
-const API = "/admin/api/solicitudes";
-
+const API = "/api/admin/solicitudes";
 let paginaActual = 1;
 let modoEdicion = null; // null = registrar; id = editar
 
