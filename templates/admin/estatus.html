@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <title>Gestión de Estatus | Ticket de Turno</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin_solicitudes.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin_estatus.css') }}">
+</head>
+<body class="admin-body">
+
+    <header class="admin-header">
+        <a href="{{ url_for('admin.dashboard') }}" class="logo">
+            Ticket de Turno
+        </a>
+
+        <div class="header-usuario">
+            <span class="nombre-admin">{{ nombre }}</span>
+            <form method="POST" action="{{ url_for('admin.logout') }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                <button type="submit" class="btn-logout">Cerrar sesión</button>
+            </form>
+        </div>
+    </header>
+
+    <main class="admin-container">
+        <div class="breadcrumb-nav">
+            <a href="{{ url_for('admin.dashboard') }}" class="volver-panel">← Volver al panel</a>
+        </div>
+
+        <section class="admin-welcome">
+            <span class="etiqueta">PANEL ADMINISTRATIVO</span>
+            <h1>Gestión de Estatus de Solicitudes</h1>
+            <p>
+                Consulte, filtre y modifique ágilmente el estado de atención de las solicitudes entre
+                <strong>Pendiente</strong> y <strong>Resuelto</strong>. Los cambios se guardan y reflejan
+                inmediatamente sin necesidad de recargar la página.
+            </p>
+        </section>
+
+        <!-- Mensajes globales de alerta / éxito -->
+        <div id="mensajeAlerta" class="mensaje-alerta" hidden></div>
+
+        <!-- Tarjetas de resumen rápido -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-titulo">Total Mostradas</span>
+                <span class="stat-valor" id="statTotal">-</span>
+            </div>
+            <div class="stat-card stat-pendiente">
+                <span class="stat-titulo">Pendientes</span>
+                <span class="stat-valor" id="statPendientes">-</span>
+            </div>
+            <div class="stat-card stat-resuelto">
+                <span class="stat-titulo">Resueltas</span>
+                <span class="stat-valor" id="statResueltos">-</span>
+            </div>
+        </div>
+
+        <!-- Barra de Filtros de Búsqueda -->
+        <section class="card-filtros-estatus">
+            <form id="formFiltros" class="filtros-grid">
+                <div class="campo-filtro">
+                    <label for="fCurp">CURP:</label>
+                    <input type="text" id="fCurp" name="curp" placeholder="Buscar por CURP..." maxlength="18" autocomplete="off">
+                </div>
+
+                <div class="campo-filtro">
+                    <label for="fNombre">Nombre del Solicitante:</label>
+                    <input type="text" id="fNombre" name="nombre" placeholder="Nombre o apellidos..." autocomplete="off">
+                </div>
+
+                <div class="campo-filtro">
+                    <label for="fFolio">Folio:</label>
+                    <input type="text" id="fFolio" name="folio" placeholder="Ej. M1-000001" autocomplete="off">
+                </div>
+
+                <div class="campo-filtro">
+                    <label for="fMunicipio">Municipio:</label>
+                    <select id="fMunicipio" name="municipio">
+                        <option value="">Todos los municipios</option>
+                    </select>
+                </div>
+
+                <div class="campo-filtro">
+                    <label for="fEstatus">Estatus:</label>
+                    <select id="fEstatus" name="estatus">
+                        <option value="">Todos los estatus</option>
+                        <option value="Pendiente">Solo Pendientes</option>
+                        <option value="Resuelto">Solo Resueltos</option>
+                    </select>
+                </div>
+
+                <div class="filtro-acciones">
+                    <button type="submit" class="btn-primary-admin" id="btnBuscar">
+                        <span>🔍</span> Filtrar
+                    </button>
+                    <button type="button" class="btn-sec" id="btnLimpiar">
+                        Limpiar
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Tabla de Solicitudes y Cambio de Estatus -->
+        <section class="card-tabla">
+            <div class="tabla-toolbar">
+                <div class="conteo-box">
+                    <span id="conteoRegistros">Cargando solicitudes...</span>
+                </div>
+            </div>
+
+            <div class="tabla-responsive">
+                <table class="tabla-admin tabla-estatus" id="tablaEstatus">
+                    <thead>
+                        <tr>
+                            <th style="width: 130px;">Folio</th>
+                            <th style="width: 75px; text-align: center;">Turno</th>
+                            <th>Solicitante</th>
+                            <th style="width: 175px;">CURP</th>
+                            <th style="width: 130px;">Municipio</th>
+                            <th style="width: 140px;">Asunto</th>
+                            <th style="width: 140px; text-align: center;">Estatus Actual</th>
+                            <th style="width: 170px; text-align: center;">Acción Rápida</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyEstatus">
+                        <tr>
+                            <td colspan="8" class="texto-cargando">Cargando solicitudes...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Paginación -->
+            <div class="paginacion" id="paginacionBox">
+                <button id="btnPrev" class="btn-sec" disabled>← Anterior</button>
+                <span id="infoPagina">Página 1</span>
+                <button id="btnNext" class="btn-sec" disabled>Siguiente →</button>
+            </div>
+        </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='api.js') }}"></script>
+    <script src="{{ url_for('static', filename='admin_estatus.js') }}"></script>
+</body>
+</html>

@@ -131,6 +131,17 @@ def solicitudes():
     )
 
 
+# Gestión de estatus de solicitudes
+@admin_bp.get("/estatus")
+@login_requerido
+def estatus():
+    return render_template(
+        "admin/estatus.html",
+        nombre=session.get("admin_nombre"),
+        csrf_token=session.get("logout_csrf")
+    )
+
+
 # Gestión del catálogo de municipios
 @admin_bp.get("/municipios")
 @login_requerido
@@ -176,6 +187,9 @@ def seccion(nombre):
 
     if nombre == "solicitudes":
         return redirect(url_for("admin.solicitudes"))
+
+    if nombre == "estatus":
+        return redirect(url_for("admin.estatus"))
 
     if nombre == "municipios":
         return redirect(url_for("admin.municipios"))
