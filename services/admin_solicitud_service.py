@@ -194,6 +194,25 @@ class AdminSolicitudService:
         return AdminSolicitudService.obtener(id_solicitud)
 
     @staticmethod
+    def cambiar_estatus(id_solicitud, nuevo_estatus):
+        solicitud = db.session.get(Solicitud, id_solicitud)
+        if solicitud is None:
+            raise SolicitudNoExiste("La solicitud no existe")
+
+        estatus = str(nuevo_estatus or "").strip()
+        if estatus not in ("Pendiente", "Resuelto"):
+            raise DatosInvalidos("Estatus inválido. Debe ser 'Pendiente' o 'Resuelto'")
+
+        try:
+            solicitud.estatus = estatus
+            db.session.commit()
+        except Exception:
+            db.session.rollback()
+            raise
+
+        return AdminSolicitudService.obtener(id_solicitud)
+
+    @staticmethod
     def eliminar(id_solicitud):
         solicitud = db.session.get(Solicitud, id_solicitud)
         if solicitud is None:

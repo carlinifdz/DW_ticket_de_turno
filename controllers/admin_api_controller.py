@@ -274,6 +274,38 @@ def eliminar_solicitud(id_solicitud):
         }), 500
 
 
+
+# PATCH /api/admin/solicitudes/<id>/estatus
+@admin_api_bp.patch("/solicitudes/<int:id_solicitud>/estatus")
+@admin_api_requerido
+def cambiar_estatus_solicitud(id_solicitud):
+    if not request.is_json:
+        return jsonify({"error": "Se requiere enviar datos en formato JSON."}), 415
+
+    datos = request.get_json(silent=True) or {}
+    nuevo_estatus = datos.get("estatus")
+
+    if not nuevo_estatus:
+        return jsonify({"error": "El campo 'estatus' es obligatorio."}), 400
+
+    try:
+        resultado = AdminSolicitudService.cambiar_estatus(id_solicitud, nuevo_estatus)
+        return jsonify({
+            "mensaje": f"Estatus actualizado a '{resultado['estatus']}' correctamente.",
+            "solicitud": resultado
+        }), 200
+
+    except SolicitudNoExiste as error:
+        return jsonify({"error": str(error)}), 404
+
+    except DatosInvalidos as error:
+        return jsonify({"error": str(error)}), 400
+
+    except SQLAlchemyError:
+        current_app.logger.exception("Error al actualizar el estatus de la solicitud (admin)")
+        return jsonify({"error": "No se pudo actualizar el estatus de la solicitud."}), 500
+
+
 # ==========================================
 # CRUD ADMINISTRATIVO DE MUNICIPIOS
 # ==========================================
