@@ -1,3 +1,5 @@
+from services.estadisticas_service import EstadisticasService
+from models import Municipio
 
 import secrets
 from functools import wraps
@@ -305,6 +307,56 @@ def cambiar_estatus_solicitud(id_solicitud):
         current_app.logger.exception("Error al actualizar el estatus de la solicitud (admin)")
         return jsonify({"error": "No se pudo actualizar el estatus de la solicitud."}), 500
 
+# ==========================================
+# ESTADÍSTICAS DEL DASHBOARD
+# ==========================================
+
+@admin_api_bp.get("/estadisticas")
+@admin_api_requerido
+def obtener_estadisticas():
+
+    municipio_param = request.args.get(
+        "municipio", ""
+    ).strip()
+
+    id_municipio = None
+
+    if municipio_param:
+        try:
+            id_municipio = int(municipio_param)
+
+            if id_municipio <= 0:
+                raise ValueError()
+
+        except ValueError:
+            return jsonify({
+                "error": "El municipio debe ser un ID válido"
+            }), 400
+
+        municipio = Municipio.query.filter_by(
+            id_municipio=id_municipio
+        ).first()
+
+        if municipio is None:
+            return jsonify({
+                "error": "Municipio no encontrado"
+            }), 404
+
+    try:
+        estadisticas = EstadisticasService.obtener(
+            id_municipio
+        )
+
+        return jsonify(estadisticas), 200
+
+    except SQLAlchemyError:
+        current_app.logger.exception(
+            "Error al consultar estadísticas"
+        )
+
+        return jsonify({
+            "error": "No se pudieron obtener las estadísticas"
+        }), 500
 
 # ==========================================
 # CRUD ADMINISTRATIVO DE MUNICIPIOS
