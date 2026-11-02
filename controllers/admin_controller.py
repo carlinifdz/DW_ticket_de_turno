@@ -120,6 +120,17 @@ def dashboard():
     )
 
 
+# Dashboard de estadísticas
+@admin_bp.get("/estadisticas")
+@login_requerido
+def estadisticas():
+    return render_template(
+        "admin/estadisticas.html",
+        nombre=session.get("admin_nombre"),
+        csrf_token=session.get("logout_csrf")
+    )
+
+
 # Consulta y administracion de solicitudes (CRUD)
 @admin_bp.get("/solicitudes")
 @login_requerido

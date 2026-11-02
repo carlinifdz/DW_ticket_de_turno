@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>Estadísticas | Ticket de Turno</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='admin.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='dashboard.css') }}">
+</head>
+
+<body class="admin-body">
+
+    <header class="admin-header">
+        <a href="{{ url_for('admin.dashboard') }}"
+           class="logo">
+            Ticket de Turno
+        </a>
+
+        <form method="POST"
+              action="{{ url_for('admin.logout') }}">
+
+            <input type="hidden"
+                   name="csrf_token"
+                   value="{{ csrf_token }}">
+
+            <button type="submit" class="btn-logout">
+                Cerrar sesión
+            </button>
+        </form>
+    </header>
+
+    <main class="admin-container">
+
+        <section class="admin-welcome">
+            <span class="etiqueta">
+                PANEL ADMINISTRATIVO
+            </span>
+
+            <h1>Dashboard estadístico</h1>
+
+            <p>
+                Consulta las estadísticas de solicitudes
+                por municipio y su estado de atención.
+            </p>
+        </section>
+
+        <a href="{{ url_for('admin.dashboard') }}"
+           class="enlace-volver">
+            ← Volver al panel
+        </a>
+
+        <section class="dashboard-filtros">
+            <label for="filtroMunicipio">
+                Filtrar por municipio
+            </label>
+
+            <select id="filtroMunicipio">
+                <option value="">
+                    Todos los municipios
+                </option>
+            </select>
+        </section>
+
+        <section class="dashboard-tarjetas">
+
+            <article class="dashboard-tarjeta">
+                <h2>Total de solicitudes</h2>
+                <p id="totalSolicitudes">0</p>
+            </article>
+
+            <article class="dashboard-tarjeta pendiente">
+                <h2>Solicitudes pendientes</h2>
+                <p id="totalPendientes">0</p>
+            </article>
+
+            <article class="dashboard-tarjeta resuelta">
+                <h2>Solicitudes resueltas</h2>
+                <p id="totalResueltas">0</p>
+            </article>
+
+        </section>
+
+        <section class="dashboard-graficas">
+
+            <article class="dashboard-grafica">
+                <h2>Solicitudes por estatus</h2>
+                <div class="grafica-contenedor">
+                    <canvas id="graficaEstados"></canvas>
+                </div>
+            </article>
+
+            <article class="dashboard-grafica">
+                <h2>Solicitudes por municipio</h2>
+                <div class="grafica-contenedor">
+                    <canvas id="graficaMunicipios"></canvas>
+                </div>
+            </article>
+
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+
+    <script src="{{ url_for('static', filename='api.js') }}"></script>
+    <script src="{{ url_for('static', filename='observer.js') }}"></script>
+    <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+
+</body>
+</html>
