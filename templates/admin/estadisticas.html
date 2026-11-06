@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -38,9 +37,15 @@
     </header>
 
     <main class="admin-container">
+        <a href="{{ url_for('admin.dashboard') }}"
+            class="volver-panel">
+            ← Volver al panel
+        </a>
+        
 
         <section class="admin-welcome">
             <span class="etiqueta">
+                <br>
                 PANEL ADMINISTRATIVO
             </span>
 
@@ -51,11 +56,6 @@
                 por municipio y su estado de atención.
             </p>
         </section>
-
-        <a href="{{ url_for('admin.dashboard') }}"
-           class="enlace-volver">
-            ← Volver al panel
-        </a>
 
         <section class="dashboard-filtros">
             <label for="filtroMunicipio">
